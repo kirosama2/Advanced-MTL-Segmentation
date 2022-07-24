@@ -4,4 +4,5 @@ import os.path as osp
 from PIL import Image
     
 PATH='../Fewshot/Fewshot/'
-classes= os.li
+classes= os.listdir(PATH)
+trainp='../Fewshot/train/'
