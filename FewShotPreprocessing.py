@@ -12,4 +12,6 @@ testp='../Fewshot/test/'
 for classv in classes:
     if classv[0]=='.':
         continue
- 
+    pathn=osp.join(PATH,classv)
+    pathn=pathn+'/'
+    folde
