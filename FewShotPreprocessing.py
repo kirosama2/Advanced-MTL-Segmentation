@@ -10,3 +10,6 @@ valp='../Fewshot/val/'
 testp='../Fewshot/test/'
 
 for classv in classes:
+    if classv[0]=='.':
+        continue
+ 
