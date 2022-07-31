@@ -14,4 +14,6 @@ for classv in classes:
         continue
     pathn=osp.join(PATH,classv)
     pathn=pathn+'/'
-    folde
+    folders=os.listdir(pathn)
+    
+    path1=osp.join(tra
