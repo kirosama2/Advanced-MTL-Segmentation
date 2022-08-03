@@ -16,4 +16,5 @@ for classv in classes:
     pathn=pathn+'/'
     folders=os.listdir(pathn)
     
-    path1=osp.join(tra
+    path1=osp.join(trainp,'images/')
+    path1=osp.join(path1,classv)
