@@ -18,3 +18,5 @@ for classv in classes:
     
     path1=osp.join(trainp,'images/')
     path1=osp.join(path1,classv)
+    os.mkdir(path1)
+    path1 =pat
