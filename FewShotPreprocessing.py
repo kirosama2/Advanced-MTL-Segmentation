@@ -24,4 +24,7 @@ for classv in classes:
     path2=osp.join(trainp,'labels/')
     path2=osp.join(path2,classv)
     os.mkdir(path2)
-    p
+    path2=path2+'/'   
+    
+    
+    for i in range(0,8,1):
