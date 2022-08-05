@@ -22,4 +22,6 @@ for classv in classes:
     path1 =path1 +'/'
     
     path2=osp.join(trainp,'labels/')
-    pat
+    path2=osp.join(path2,classv)
+    os.mkdir(path2)
+    p
