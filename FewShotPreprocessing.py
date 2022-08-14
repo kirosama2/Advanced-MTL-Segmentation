@@ -29,4 +29,6 @@ for classv in classes:
     
     for i in range(0,8,1):
         p=osp.join(pathn,folders[i])
-        im=Imag
+        im=Image.open(p)
+        if(i%2==0):
+            p1=osp.join(
