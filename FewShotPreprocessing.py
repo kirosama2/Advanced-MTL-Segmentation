@@ -37,4 +37,5 @@ for classv in classes:
             p2=osp.join(path2,folders[i])
             im.save(p2)
             
-    pa
+    path1=osp.join(valp,'images/')
+    path1=
