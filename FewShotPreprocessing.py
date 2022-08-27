@@ -40,4 +40,7 @@ for classv in classes:
     path1=osp.join(valp,'images/')
     path1=osp.join(path1,classv)
     os.mkdir(path1)
-    path1 =
+    path1 =path1 +'/'
+    
+    path2=osp.join(valp,'labels/')
+  
