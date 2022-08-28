@@ -50,4 +50,6 @@ for classv in classes:
     
     for i in range(8,16,1):
         p=osp.join(pathn,folders[i])
-        im=
+        im=Image.open(p)
+        if(i%2==0):
+            p1
