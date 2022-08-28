@@ -44,4 +44,8 @@ for classv in classes:
     
     path2=osp.join(valp,'labels/')
     path2=osp.join(path2,classv)
-    os.mkdir(pat
+    os.mkdir(path2)
+    path2=path2+'/'   
+    
+    
+    for i in ra
