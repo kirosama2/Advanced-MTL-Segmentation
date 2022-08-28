@@ -48,4 +48,6 @@ for classv in classes:
     path2=path2+'/'   
     
     
-    for i in ra
+    for i in range(8,16,1):
+        p=osp.join(pathn,folders[i])
+        im=
