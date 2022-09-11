@@ -56,4 +56,7 @@ for classv in classes:
             im.save(p1)
         else:
             p2=osp.join(path2,folders[i])
-            im.save(p2)         
+            im.save(p2)            
+            
+            
+    path1=osp.join(testp,'
