@@ -59,4 +59,6 @@ for classv in classes:
             im.save(p2)            
             
             
-    path1=osp.join(testp,'
+    path1=osp.join(testp,'images/')
+    path1=osp.join(path1,classv)
+    os.mkdir(
