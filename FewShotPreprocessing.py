@@ -69,4 +69,6 @@ for classv in classes:
     os.mkdir(path2)            
     path2=path2+'/'            
             
-    for i in range(16
+    for i in range(16,20,1):
+        p=osp.join(pathn,folders[i])
+      
