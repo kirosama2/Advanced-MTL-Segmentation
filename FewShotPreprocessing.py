@@ -66,4 +66,5 @@ for classv in classes:
     
     path2=osp.join(testp,'labels/')
     path2=osp.join(path2,classv)
-    os.mkd
+    os.mkdir(path2)            
+    path2=path2+'/
