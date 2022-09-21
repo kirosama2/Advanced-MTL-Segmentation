@@ -73,4 +73,6 @@ for classv in classes:
         p=osp.join(pathn,folders[i])
         im=Image.open(p)
         if(i%2==0):
+            p1=osp.join(path1,folders[i])
+            im.save(p1)
     
