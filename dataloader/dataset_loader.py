@@ -80,3 +80,20 @@ class DatasetLoader(Dataset):
                 transforms.ToTensor()])
                 #transforms.Normalize(np.array([x / 255.0 for x in [125.3]]), np.array([x / 255.0 for x in [63.0]]))])
         else:
+            image_size = 284
+            self.btransform = transforms.Compose([
+                transforms.Resize(290),
+                transforms.CenterCrop(image_size),
+                transforms.ToTensor()])
+                #transforms.Normalize(np.array([x / 255.0 for x in [125.3]]),np.array([x / 255.0 for x in [63.0]]))])
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, i):
+        num_classes=self.args.num_classes
+        inppath, labpath = self.data[i], self.label[i]
+        inpimage = self.transform(Image.open(inppath).convert('RGB'))
+        labimage = self.btransform(Image.open(labpath).convert('LA'))
+        labimage=(num_classes-1)*labimage
+        labimage=labimage.long()
+        return inpimage,labimage[0]
