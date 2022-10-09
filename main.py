@@ -6,4 +6,6 @@ import torch
 from utils.misc import pprint
 from utils.gpu_tools import set_gpu
 from trainer.meta import MetaTrainer
-from tra
+from trainer.pre import PreTrainer
+
+if __name__ == '__main__':
