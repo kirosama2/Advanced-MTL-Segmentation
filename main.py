@@ -11,4 +11,4 @@ from trainer.pre import PreTrainer
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # Basic parameters
-    parser.add_argument('--model_type', type=str
+    parser.add_argument('--model_type', type=str, default='UNet', choices=['UNet']) # The network architec
