@@ -10,4 +10,5 @@ from trainer.pre import PreTrainer
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    # Basic p
+    # Basic parameters
+    parser.add_argument('--model_type', type=str
