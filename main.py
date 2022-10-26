@@ -12,4 +12,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     # Basic parameters
     parser.add_argument('--model_type', type=str, default='UNet', choices=['UNet']) # The network architecture
-    parser.add_argument('--dataset', type=str, def
+    parser.add_argument('--dataset', type=str, default='COCO', choices=['COCO','Fewshot']) # Dataset
+    p
