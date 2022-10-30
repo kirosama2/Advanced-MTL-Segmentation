@@ -13,4 +13,5 @@ if __name__ == '__main__':
     # Basic parameters
     parser.add_argument('--model_type', type=str, default='UNet', choices=['UNet']) # The network architecture
     parser.add_argument('--dataset', type=str, default='COCO', choices=['COCO','Fewshot']) # Dataset
-    parser.add_argument('--phase', type=str, default='meta_eval', choices=['pre_train', 'meta_t
+    parser.add_argument('--phase', type=str, default='meta_eval', choices=['pre_train', 'meta_train', 'meta_eval']) # Phase
+    parser.add_argument('-
