@@ -19,4 +19,5 @@ if __name__ == '__main__':
     parser.add_argument('--dataset_dir', type=str, default='../Datasets/COCO/') # Dataset folder
 
     # Parameters for meta-train phase    
-    parser.add_argument('--mdataset_dir', type=str, default='../Datasets/Fewshot
+    parser.add_argument('--mdataset_dir', type=str, default='../Datasets/Fewshot/') # Dataset folder
+    parser.add_arg
