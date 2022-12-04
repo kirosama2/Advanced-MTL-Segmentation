@@ -25,4 +25,4 @@ if __name__ == '__main__':
     parser.add_argument('--num_classes', type=int, default=5)# Total number of pre-labelled classes 
     parser.add_argument('--way', type=int, default=2) # Way number, how many classes in a task
     parser.add_argument('--shot', type=int, default=3) # Shot number, how many samples for one class in a task
-    parser.add_argument('--teshot', type=int, def
+    parser.add_argument('--teshot', type=int, default=1) # Shot number, how many samples f
