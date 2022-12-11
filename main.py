@@ -27,4 +27,4 @@ if __name__ == '__main__':
     parser.add_argument('--shot', type=int, default=3) # Shot number, how many samples for one class in a task
     parser.add_argument('--teshot', type=int, default=1) # Shot number, how many samples for one class in a meta test task
     parser.add_argument('--train_query', type=int, default=1) # The number of meta train samples for each class in a task
-    parser.add_argument('--val_query', 
+    parser.add_argument('--val_query', type=int, default=1) # The number of meta val samp
