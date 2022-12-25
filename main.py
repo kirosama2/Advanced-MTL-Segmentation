@@ -31,4 +31,4 @@ if __name__ == '__main__':
     parser.add_argument('--test_query', type=int, default=1) # The number of meta test samples for each class in a task
     parser.add_argument('--meta_lr1', type=float, default=0.0005) # Learning rate for SS weights
     parser.add_argument('--meta_lr2', type=float, default=0.005) # Learning rate for FC weights
-    parser.add_argument
+    parser.add_argument('--base_lr', type=float, default=0.01) # L
