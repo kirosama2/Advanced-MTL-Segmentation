@@ -32,4 +32,4 @@ if __name__ == '__main__':
     parser.add_argument('--meta_lr1', type=float, default=0.0005) # Learning rate for SS weights
     parser.add_argument('--meta_lr2', type=float, default=0.005) # Learning rate for FC weights
     parser.add_argument('--base_lr', type=float, default=0.01) # Learning rate for the inner loop
-    parser.add_argume
+    parser.add_argument('--update_step', type=int, default=50) # The num
