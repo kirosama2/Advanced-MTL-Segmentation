@@ -35,4 +35,5 @@ if __name__ == '__main__':
     parser.add_argument('--update_step', type=int, default=50) # The number of updates for the inner loop
     parser.add_argument('--step_size', type=int, default=20) # The number of epochs to reduce the meta learning rates
     parser.add_argument('--gamma', type=float, default=0.5) # Gamma for the meta-train learning rate decay
-    parser.add_argument('--init_weights', type=str, default=None) # The pre-train
+    parser.add_argument('--init_weights', type=str, default=None) # The pre-trained weights for meta-train phase
+    parser.add_argume
