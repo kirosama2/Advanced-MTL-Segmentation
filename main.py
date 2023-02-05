@@ -37,4 +37,6 @@ if __name__ == '__main__':
     parser.add_argument('--gamma', type=float, default=0.5) # Gamma for the meta-train learning rate decay
     parser.add_argument('--init_weights', type=str, default=None) # The pre-trained weights for meta-train phase
     parser.add_argument('--eval_weights', type=str, default=None) # The meta-trained weights for meta-eval phase
-    parser.add_argument('--meta_label', type=str, default='exp1') # Addi
+    parser.add_argument('--meta_label', type=str, default='exp1') # Additional label for meta-train
+
+    # Parameters for 
