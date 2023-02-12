@@ -40,4 +40,5 @@ if __name__ == '__main__':
     parser.add_argument('--meta_label', type=str, default='exp1') # Additional label for meta-train
 
     # Parameters for pretain phase
-    parser.add_argument('--pre_max_epoch', type=int, default=200) # Epoch nu
+    parser.add_argument('--pre_max_epoch', type=int, default=200) # Epoch number for pre-train phase
+    parser.add_argument('
