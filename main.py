@@ -41,4 +41,4 @@ if __name__ == '__main__':
 
     # Parameters for pretain phase
     parser.add_argument('--pre_max_epoch', type=int, default=200) # Epoch number for pre-train phase
-    parser.add_argument('
+    parser.add_argument('--pre_batch_size', type=int, default
