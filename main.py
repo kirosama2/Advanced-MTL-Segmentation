@@ -45,4 +45,4 @@ if __name__ == '__main__':
     parser.add_argument('--pre_lr', type=float, default=0.1) # Learning rate for pre-train phase
     parser.add_argument('--pre_gamma', type=float, default=0.2) # Gamma for the pre-train learning rate decay
     parser.add_argument('--pre_step_size', type=int, default=20) # The number of epochs to reduce the pre-train learning rate
-    parser.add_argument('--pre
+    parser.add_argument('--pre_custom_momentum', type=float, default=0
