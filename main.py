@@ -46,4 +46,5 @@ if __name__ == '__main__':
     parser.add_argument('--pre_gamma', type=float, default=0.2) # Gamma for the pre-train learning rate decay
     parser.add_argument('--pre_step_size', type=int, default=20) # The number of epochs to reduce the pre-train learning rate
     parser.add_argument('--pre_custom_momentum', type=float, default=0.9) # Momentum for the optimizer during pre-train
-    parser.add_argument('--pre_custom_weight_decay', type=float, default=0.0005) # Weight decay
+    parser.add_argument('--pre_custom_weight_decay', type=float, default=0.0005) # Weight decay for the optimizer during pre-train
+  
