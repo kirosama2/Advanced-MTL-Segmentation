@@ -49,4 +49,6 @@ if __name__ == '__main__':
     parser.add_argument('--pre_custom_weight_decay', type=float, default=0.0005) # Weight decay for the optimizer during pre-train
     parser.add_argument('--pre_init_weights', type=str, default=None)# The pre-trained weights for pre-train phase
 
-    # Set and print the param
+    # Set and print the parameters
+    args = parser.parse_args()
+    pprint(va
