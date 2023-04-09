@@ -51,4 +51,7 @@ if __name__ == '__main__':
 
     # Set and print the parameters
     args = parser.parse_args()
-    pprint(va
+    pprint(vars(args))
+
+    # Set the GPU id
+    set_gp
