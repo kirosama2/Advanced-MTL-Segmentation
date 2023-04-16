@@ -59,3 +59,5 @@ if __name__ == '__main__':
 
     # Set manual seed for PyTorch
     if args.seed==0:
+        print ('Using random seed.')
+        torch.bac
