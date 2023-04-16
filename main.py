@@ -57,4 +57,5 @@ if __name__ == '__main__':
     set_gpu(args.gpu)
     #torch.cuda.set_device(0)
 
-    # Set
+    # Set manual seed for PyTorch
+    if args.seed==0:
