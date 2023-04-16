@@ -54,4 +54,7 @@ if __name__ == '__main__':
     pprint(vars(args))
 
     # Set the GPU id
-    set_gp
+    set_gpu(args.gpu)
+    #torch.cuda.set_device(0)
+
+    # Set
