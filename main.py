@@ -62,4 +62,5 @@ if __name__ == '__main__':
         print ('Using random seed.')
         torch.backends.cudnn.benchmark = True
     else:
-        print ('Us
+        print ('Using manual seed:', args.seed)
+        torch.manual_seed(args
