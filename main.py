@@ -65,4 +65,5 @@ if __name__ == '__main__':
         print ('Using manual seed:', args.seed)
         torch.manual_seed(args.seed)
         torch.cuda.manual_seed(args.seed)
-        torch
+        torch.backends.cudnn.deterministic = True
+        to
