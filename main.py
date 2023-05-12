@@ -68,4 +68,4 @@ if __name__ == '__main__':
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
-    # Sta
+    # Start trainer for pre-train, meta-tra
