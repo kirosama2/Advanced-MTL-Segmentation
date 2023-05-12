@@ -68,4 +68,6 @@ if __name__ == '__main__':
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
 
-    # Start trainer for pre-train, meta-tra
+    # Start trainer for pre-train, meta-train or meta-eval
+    if args.phase=='meta_train':
+     
