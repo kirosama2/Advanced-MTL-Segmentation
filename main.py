@@ -70,4 +70,6 @@ if __name__ == '__main__':
 
     # Start trainer for pre-train, meta-train or meta-eval
     if args.phase=='meta_train':
-     
+        trainer = MetaTrainer(args)
+        trainer.train()
+    el
