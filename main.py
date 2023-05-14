@@ -73,4 +73,6 @@ if __name__ == '__main__':
         trainer = MetaTrainer(args)
         trainer.train()
     elif args.phase=='meta_eval':
-        trainer 
+        trainer = MetaTrainer(args)
+        trainer.eval()
+ 
