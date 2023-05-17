@@ -78,4 +78,5 @@ if __name__ == '__main__':
     elif args.phase=='pre_train':
         trainer = PreTrainer(args)
         trainer.train()
-    else
+    else:
+        raise ValueError('Please set corr
