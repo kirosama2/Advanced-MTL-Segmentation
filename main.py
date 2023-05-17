@@ -76,4 +76,6 @@ if __name__ == '__main__':
         trainer = MetaTrainer(args)
         trainer.eval()
     elif args.phase=='pre_train':
-        trainer
+        trainer = PreTrainer(args)
+        trainer.train()
+    else
