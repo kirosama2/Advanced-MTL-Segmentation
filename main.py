@@ -79,4 +79,4 @@ if __name__ == '__main__':
         trainer = PreTrainer(args)
         trainer.train()
     else:
-        raise ValueError('Please set corr
+        raise ValueError('Please set correct phase.')
