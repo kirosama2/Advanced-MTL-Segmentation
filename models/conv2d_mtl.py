@@ -121,3 +121,44 @@ class _ConvTransposeNdMtl(_ConvNdMtl):
                     .format(k, k + 2, len(output_size)))
 
             min_sizes = torch.jit.annotate(List[int], [])
+            max_sizes = torch.jit.annotate(List[int], [])
+            for d in range(k):
+                dim_size = ((input.size(d + 2) - 1) * stride[d] -
+                            2 * padding[d] + kernel_size[d])
+                min_sizes.append(dim_size)
+                max_sizes.append(min_sizes[d] + stride[d] - 1)
+
+            for i in range(len(output_size)):
+                size = output_size[i]
+                min_size = min_sizes[i]
+                max_size = max_sizes[i]
+                if size < min_size or size > max_size:
+                    raise ValueError((
+                        "requested an output size of {}, but valid sizes range "
+                        "from {} to {} (for an input of {})").format(
+                            output_size, min_sizes, max_sizes, input.size()[2:]))
+
+            res = torch.jit.annotate(List[int], [])
+            for d in range(k):
+                res.append(output_size[d] - min_sizes[d])
+
+            ret = res
+        return ret
+
+
+class ConvTranspose2dMtl(_ConvTransposeNdMtl):
+    def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=0, output_padding=0, groups=1, bias=True,
+                 dilation=1, padding_mode='zeros'):
+        kernel_size = _pair(kernel_size)
+        stride = _pair(stride)
+        padding = _pair(padding)
+        dilation = _pair(dilation)
+        output_padding = _pair(output_padding)
+        super(ConvTranspose2dMtl, self).__init__(
+            in_channels, out_channels, kernel_size, stride, padding, dilation,
+            True, output_padding, groups, bias)
+
+    def forward(self, input, output_size=None):
+        # type: (Tensor, Optional[List[int]]) -> Tensor
+        # if self.padding_mode != 'zeros':
