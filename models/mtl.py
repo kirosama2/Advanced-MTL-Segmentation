@@ -39,3 +39,51 @@ class MtlLearner(nn.Module):
         super().__init__()
         self.args = args
         self.mode = mode
+        self.update_lr = args.base_lr
+        self.update_step = args.update_step
+        self.base_learner = BaseLearner(args)
+        num_classes=self.args.num_classes
+        if self.mode == 'meta':
+            self.encoder = UNetMtl(3,num_classes)  
+        else:
+            self.encoder = UNetMtl(3,num_classes, mtl=False)  
+
+        self.FL=FocalLoss()
+        self.CD=CE_DiceLoss()
+        self.LS=LovaszSoftmax()
+
+    def forward(self, inp):
+        """The function to forward the model.
+        Args:
+          inp: input images.
+        Returns:
+          the outputs of MTL model.
+        """
+        if self.mode=='train':
+            return self.pretrain_forward(inp)
+        elif self.mode=='meta':
+            data_shot, label_shot, data_query = inp
+            return self.meta_forward(data_shot, label_shot, data_query)
+        elif self.mode=='val':
+            data_shot, label_shot, data_query = inp
+            return self.preval_forward(data_shot, label_shot, data_query)
+        else:
+            raise ValueError('Please set the correct mode.')
+
+    def pretrain_forward(self, inp):
+        """The function to forward pretrain phase.
+        Args:
+          inp: input images(MX3XHXW).
+        Returns:
+          the outputs of pretrain model(MxCXHXW).
+        """
+        return self.encoder(inp)
+
+    def meta_forward(self, data_shot, label_shot, data_query):
+        """The function to forward meta-train phase.
+        Args:
+          data_shot: train images for the task
+          label_shot: train labels for the task
+          data_query: test images for the task.
+        Returns:
+          logits_q: the predictions for the test samples.
