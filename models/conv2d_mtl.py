@@ -74,3 +74,50 @@ class _ConvNdMtl(Module):
 class Conv2dMtl(_ConvNdMtl):
     """The class for meta-transfer convolution"""
     def __init__(self, in_channels, out_channels, kernel_size, stride=1,
+                 padding=0, dilation=1, groups=1, bias=True):
+        kernel_size = _pair(kernel_size)
+        stride = _pair(stride)
+        padding = _pair(padding)
+        dilation = _pair(dilation)
+        super(Conv2dMtl, self).__init__(
+            in_channels, out_channels, kernel_size, stride, padding, dilation,
+            False, _pair(0), groups, bias)
+
+    def forward(self, inp):
+        new_mtl_weight = self.mtl_weight.expand(self.weight.shape)
+        new_weight = self.weight.mul(new_mtl_weight)
+        if self.bias is not None:
+            new_bias = self.bias + self.mtl_bias
+        else:
+            new_bias = None
+        return F.conv2d(inp, new_weight, new_bias, self.stride,
+                        self.padding, self.dilation, self.groups)
+
+
+#### ConvTranspose for Unet ###########################
+class _ConvTransposeNdMtl(_ConvNdMtl):
+    def __init__(self, in_channels, out_channels, kernel_size, stride,
+                 padding, dilation, transposed, output_padding,
+                 groups, bias):
+        # if padding_mode != 'zeros':
+        #     raise ValueError('Only "zeros" padding mode is supported for {}'.format(self.__class__.__name__))
+
+        super(_ConvTransposeNdMtl, self).__init__(
+            in_channels, out_channels, kernel_size, stride,
+            padding, dilation, transposed, output_padding,
+            groups, bias)
+
+    def _output_padding(self, input, output_size, stride, padding, kernel_size):
+        # type: (Tensor, Optional[List[int]], List[int], List[int], List[int]) -> List[int]
+        if output_size is None:
+            ret = _single(self.output_padding)  # converting to list if was not already
+        else:
+            k = input.dim() - 2
+            if len(output_size) == k + 2:
+                output_size = output_size[2:]
+            if len(output_size) != k:
+                raise ValueError(
+                    "output_size must have {} or {} elements (got {})"
+                    .format(k, k + 2, len(output_size)))
+
+            min_sizes = torch.jit.annotate(List[int], [])
