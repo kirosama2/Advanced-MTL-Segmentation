@@ -162,3 +162,15 @@ class ConvTranspose2dMtl(_ConvTransposeNdMtl):
     def forward(self, input, output_size=None):
         # type: (Tensor, Optional[List[int]]) -> Tensor
         # if self.padding_mode != 'zeros':
+        #     raise ValueError('Only `zeros` padding mode is supported for ConvTranspose2d')
+        new_mtl_weight = self.mtl_weight.expand(self.weight.shape)
+        new_weight = self.weight.mul(new_mtl_weight)
+        if self.bias is not None:
+            new_bias = self.bias + self.mtl_bias
+        else:
+            new_bias = None
+        output_padding = self._output_padding(input, output_size, self.stride, self.padding, self.kernel_size)
+
+        return F.conv_transpose2d(
+            input, new_weight, new_bias, self.stride, self.padding,
+            output_padding, self.groups, self.dilation)
