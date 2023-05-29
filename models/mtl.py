@@ -87,3 +87,48 @@ class MtlLearner(nn.Module):
           data_query: test images for the task.
         Returns:
           logits_q: the predictions for the test samples.
+        """
+        embedding_query = self.encoder(data_query)
+        embedding_shot = self.encoder(data_shot)
+        logits = self.base_learner(embedding_shot)
+        #loss = self.FL(logits, label_shot) + self.CD(logits,label_shot) + self.LS(logits,label_shot)
+        loss =  self.CD(logits,label_shot)
+        grad = torch.autograd.grad(loss, self.base_learner.parameters())
+        fast_weights = list(map(lambda p: p[1] - self.update_lr * p[0], zip(grad, self.base_learner.parameters())))
+        logits_q = self.base_learner(embedding_query, fast_weights)
+
+        for _ in range(1, self.update_step):
+            logits = self.base_learner(embedding_shot, fast_weights)
+            #loss = self.FL(logits, label_shot) + self.CD(logits,label_shot) + self.LS(logits,label_shot)
+            loss =  self.CD(logits,label_shot)
+            grad = torch.autograd.grad(loss, fast_weights)
+            fast_weights = list(map(lambda p: p[1] - self.update_lr * p[0], zip(grad, fast_weights)))
+            logits_q = self.base_learner(embedding_query, fast_weights)        
+        return logits_q
+
+    def preval_forward(self, data_shot, label_shot, data_query):
+        """The function to forward meta-validation during pretrain phase.
+        Args:
+          data_shot: train images for the task
+          label_shot: train labels for the task
+          data_query: test images for the task.
+        Returns:
+          logits_q: the predictions for the test samples.
+        """
+        embedding_query = self.encoder(data_query)
+        embedding_shot = self.encoder(data_shot)
+        logits = self.base_learner(embedding_shot)
+        #loss = self.FL(logits, label_shot) + self.CD(logits,label_shot) + self.LS(logits,label_shot)
+        loss =  self.CD(logits,label_shot)
+        grad = torch.autograd.grad(loss, self.base_learner.parameters())
+        fast_weights = list(map(lambda p: p[1] - 0.01 * p[0], zip(grad, self.base_learner.parameters())))
+        logits_q = self.base_learner(embedding_query, fast_weights)
+
+        for _ in range(1, 100):
+            logits = self.base_learner(embedding_shot, fast_weights)
+            #loss = self.FL(logits, label_shot) + self.CD(logits,label_shot) + self.LS(logits,label_shot)
+            loss =  self.CD(logits,label_shot)
+            grad = torch.autograd.grad(loss, fast_weights)
+            fast_weights = list(map(lambda p: p[1] - 0.01 * p[0], zip(grad, fast_weights)))
+            logits_q = self.base_learner(embedding_query, fast_weights)         
+        return logits_q
