@@ -154,3 +154,17 @@ class UNetMtl(nn.Module):
     def forward(self, x):
         x1 = self.inc(x)
         x2 = self.down1(x1)
+        x3 = self.down2(x2)
+        x4 = self.down3(x3)
+        x5 = self.down4(x4)
+        x = self.up1(x5, x4)
+        x = self.up2(x, x3)
+        x = self.up3(x, x2)
+        x = self.up4(x, x1)
+        # print(x.size())
+        logits = self.outc(x) #segmented ouput
+        
+        #Classifier Use and the layer changed
+        #logits = logits.view(logits.size(0), -1)
+        #print(logits.size())
+        return logits
