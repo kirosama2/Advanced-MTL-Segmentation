@@ -9,4 +9,5 @@ def run_exp(num_batch=50, shot=3, teshot=1, query=1, lr1=0.0005, lr2=0.005, base
     way=2 #Backround as a class included. Adjust accordingly.
     gpu=1
        
-    the_com
+    the_command = 'python3 main.py' \
+        + ' --max_epoch
