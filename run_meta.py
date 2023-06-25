@@ -12,4 +12,6 @@ def run_exp(num_batch=50, shot=3, teshot=1, query=1, lr1=0.0005, lr2=0.005, base
     the_command = 'python3 main.py' \
         + ' --max_epoch=' + str(max_epoch) \
         + ' --num_batch=' + str(num_batch) \
-        + ' --train_query=' + str(quer
+        + ' --train_query=' + str(query) \
+        + ' --meta_lr1=' + str(lr1) \
+        +
