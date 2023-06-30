@@ -15,4 +15,5 @@ def run_exp(num_batch=50, shot=3, teshot=1, query=1, lr1=0.0005, lr2=0.005, base
         + ' --train_query=' + str(query) \
         + ' --meta_lr1=' + str(lr1) \
         + ' --meta_lr2=' + str(lr2) \
-        + ' --s
+        + ' --step_size=' + str(step_size) \
+        + ' --gamma=' 
