@@ -25,4 +25,5 @@ def run_exp(num_batch=50, shot=3, teshot=1, query=1, lr1=0.0005, lr2=0.005, base
     os.system(the_command + ' --phase=meta_train')
     os.system(the_command + ' --phase=meta_eval')
 
-run_exp(num_batch=50, shot=3, teshot=1, query=1, lr1=0.0005, lr2=0.005
+run_exp(num_batch=50, shot=3, teshot=1, query=1, lr1=0.0005, lr2=0.005, base_lr=0.01, update_step=20, gamma=0.5)
+#run
