@@ -68,3 +68,43 @@ class MetaTrainer(object):
         
         # load pretrained model
         self.model_dict = self.model.state_dict()
+        if self.args.init_weights is not None:
+            pretrained_dict = torch.load(self.args.init_weights)['params']
+        else:
+            pre_base_dir = osp.join(log_base_dir, 'pre')
+            pre_save_path1 = '_'.join([args.dataset, args.model_type])
+            pre_save_path2 = 'batchsize' + str(args.pre_batch_size) + '_lr' + str(args.pre_lr) + '_gamma' + str(args.pre_gamma) + '_step' + \
+                str(args.pre_step_size) + '_maxepoch' + str(args.pre_max_epoch)
+            pre_save_path = pre_base_dir + '/' + pre_save_path1 + '_' + pre_save_path2
+            pretrained_dict = torch.load(osp.join(pre_save_path, 'max_iou.pth'))['params']
+        pretrained_dict = {'encoder.'+k: v for k, v in pretrained_dict.items()}
+        pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in self.model_dict}
+        
+        print(pretrained_dict.keys())
+        self.model_dict.update(pretrained_dict)
+        self.model.load_state_dict(self.model_dict)    
+
+        # Set model to GPU
+        if torch.cuda.is_available():
+            torch.backends.cudnn.benchmark = True
+            self.model = self.model.cuda()
+
+    def _reset_metrics(self):
+        #self.batch_time = AverageMeter()
+        #self.data_time = AverageMeter()
+        #self.total_loss = AverageMeter()
+        self.total_inter, self.total_union = 0, 0
+        self.total_correct, self.total_label = 0, 0
+    
+    def _update_seg_metrics(self, correct, labeled, inter, union):
+        self.total_correct += correct
+        self.total_label += labeled
+        self.total_inter += inter
+        self.total_union += union
+    
+    def _get_seg_metrics(self,n_class):
+        self.n_class=n_class
+        pixAcc = 1.0 * self.total_correct / (np.spacing(1) + self.total_label)
+        IoU = 1.0 * self.total_inter / (np.spacing(1) + self.total_union)
+        mIoU = IoU.mean()
+        return {
