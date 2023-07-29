@@ -108,3 +108,41 @@ class MetaTrainer(object):
         IoU = 1.0 * self.total_inter / (np.spacing(1) + self.total_union)
         mIoU = IoU.mean()
         return {
+            "Pixel_Accuracy": np.round(pixAcc, 3),
+            "Mean_IoU": np.round(mIoU, 3),
+            "Class_IoU": dict(zip(range(self.n_class), np.round(IoU, 3)))
+        }
+        
+    def save_model(self, name):
+        """The function to save checkpoints.
+        Args:
+          name: the name for saved checkpoint
+        """  
+        torch.save(dict(params=self.model.state_dict()), osp.join(self.args.save_path, name + '.pth'))           
+
+    def train(self):
+        """The function for the meta-train phase."""
+
+        # Set the meta-train log
+        trlog = {}
+        trlog['args'] = vars(self.args)
+        trlog['train_loss'] = []
+        trlog['val_loss'] = []
+        trlog['train_acc'] = []
+        trlog['val_acc'] = []
+        trlog['train_iou'] = []
+        trlog['val_iou'] = []
+        trlog['max_iou'] = 0.0
+        trlog['max_iou_epoch'] = 0
+
+        # Set the timer
+        timer = Timer()
+        # Set global count to zero
+        global_count = 0
+        # Set tensorboardX
+        writer = SummaryWriter(comment=self.args.save_path)
+                
+        # Start meta-train
+        for epoch in range(1, self.args.max_epoch + 1):
+            # Update learning rate
+            self.lr_scheduler.step()
