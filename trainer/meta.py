@@ -194,3 +194,51 @@ class MetaTrainer(object):
                 self.optimizer.zero_grad()
                 loss.backward()
                 self.optimizer.step()
+
+            # Update the averagers
+            train_loss_averager = train_loss_averager.item()
+            train_acc_averager = train_acc_averager.item()
+            train_iou_averager = train_iou_averager.item()
+
+            writer.add_scalar('data/train_loss (Meta)', float(train_loss_averager), epoch)
+            writer.add_scalar('data/train_acc (Meta)', float(train_acc_averager)*100.0, epoch)  
+            writer.add_scalar('data/train_iou (Meta)', float(train_iou_averager), epoch)
+            
+            # Start validation for this epoch, set model to eval mode
+            self.model.eval()
+
+            # Set averager classes to record validation losses and accuracies
+            val_loss_averager = Averager()
+            val_acc_averager = Averager()
+            val_iou_averager = Averager()
+                
+            # Print previous information
+            if epoch % 1 == 0:
+                print('Best Val Epoch {}, Best Val IoU={:.4f}'.format(trlog['max_iou_epoch'], trlog['max_iou']))
+                
+            # Run meta
+            for i, batch in enumerate(self.val_loader, 1):
+                if torch.cuda.is_available():
+                    data, labels,_ = [_.cuda() for _ in batch]
+                else:
+                    data = batch[0]
+                    labels=batch[1]
+                p = self.args.way* self.args.shot
+                data_shot, data_query = data[:p], data[p:]
+                label_shot,label=labels[:p],labels[p:]
+                
+                par=data_shot, label_shot, data_query
+                logits = self.model(par)
+                
+                # Calculate meta val loss
+                #loss = self.FL(logits, label) + self.CD(logits,label) + self.LS(logits,label)
+                loss = self.CD(logits,label)
+                
+                # Calculate meta-val accuracy
+                self._reset_metrics()
+                seg_metrics = eval_metrics(logits, label, self.args.way)
+                self._update_seg_metrics(*seg_metrics)
+                pixAcc, mIoU, _ = self._get_seg_metrics(self.args.way).values()
+
+                val_loss_averager.add(loss.item())
+                val_acc_averager.add(pixAcc)
