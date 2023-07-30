@@ -146,3 +146,51 @@ class MetaTrainer(object):
         for epoch in range(1, self.args.max_epoch + 1):
             # Update learning rate
             self.lr_scheduler.step()
+            # Set the model to train mode
+            self.model.train()
+            # Set averager classes to record training losses and accuracies
+            train_loss_averager = Averager()
+            train_acc_averager = Averager()
+            train_iou_averager = Averager()
+
+            # Using tqdm to read samples from train loader
+            tqdm_gen = tqdm.tqdm(self.train_loader)
+            self._reset_metrics()
+            for i, batch in enumerate(tqdm_gen, 1):
+                # Update global count number 
+                global_count = global_count + 1
+                if torch.cuda.is_available():
+                    data, labels,_ = [_.cuda() for _ in batch]
+                else:
+                    data = batch[0]
+                    labels=batch[1]
+                    
+                p = self.args.way*self.args.shot
+                data_shot, data_query = data[:p], data[p:]
+                label_shot,label=labels[:p],labels[p:]
+                # Output logits for model
+                par=data_shot, label_shot, data_query
+                logits = self.model(par)
+                
+                # Calculate meta-train loss
+                #loss = self.FL(logits, label) + self.CD(logits,label) + self.LS(logits,label)
+                loss = self.CD(logits,label)
+                
+                # Calculate meta-train accuracy
+                self._reset_metrics()
+                seg_metrics = eval_metrics(logits, label, self.args.way)
+                self._update_seg_metrics(*seg_metrics)
+                pixAcc, mIoU, _ = self._get_seg_metrics(self.args.way).values()
+                
+                # Add loss and accuracy for the averagers
+                train_loss_averager.add(loss.item())
+                train_acc_averager.add(pixAcc)
+                train_iou_averager.add(mIoU)
+
+                # Print loss and accuracy till this step
+                tqdm_gen.set_description('Epoch {}, Loss={:.4f} Acc={:.4f} IoU={:.4f}'.format(epoch, train_loss_averager.item(), train_acc_averager.item()*100.0,train_iou_averager.item()))
+                
+                # Loss backwards and optimizer updates
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
