@@ -289,3 +289,45 @@ class MetaTrainer(object):
 
         # Load meta-test set
         self.test_set = mDataset('test', self.args)
+        self.sampler = CategoriesSampler(self.test_set.labeln, self.args.num_batch, self.args.way, self.args.teshot + self.args.test_query, self.args.teshot)
+        self.loader = DataLoader(dataset=self.test_set, batch_sampler=self.sampler, num_workers=8, pin_memory=True)
+        #self.loader = DataLoader(dataset=self.test_set,batch_size=10, shuffle=False, num_workers=8, pin_memory=True)
+        # Set test accuracy recorder
+        #test_acc_record = np.zeros((600,))
+
+        # Load model for meta-test phase
+        if self.args.eval_weights is not None:
+            self.model.load_state_dict(torch.load(self.args.eval_weights)['params'])
+        else:
+            self.model.load_state_dict(torch.load(osp.join(self.args.save_path, 'max_iou' + '.pth'))['params'])
+        # Set model to eval mode
+        self.model.eval()
+
+        # Set accuracy averager
+        ave_acc = Averager()
+
+        # Start meta-test
+        self._reset_metrics()
+        count=1
+        for i, batch in enumerate(self.loader, 1):
+            if torch.cuda.is_available():
+                data, labels,_ = [_.cuda() for _ in batch]
+            else:
+                data = batch[0]
+                labels=batch[1]
+            p = self.args.teshot*self.args.way
+            data_shot, data_query = data[:p], data[p:]
+            label_shot,label=labels[:p],labels[p:]
+            logits = self.model((data_shot, label_shot, data_query))
+            seg_metrics = eval_metrics(logits, label, self.args.way)
+            self._update_seg_metrics(*seg_metrics)
+            pixAcc, mIoU, _ = self._get_seg_metrics(self.args.way).values()
+            
+            ave_acc.add(pixAcc)
+            #test_acc_record[i-1] = acc
+            #if i % 100 == 0:
+                #print('batch {}: {Average Accuracy:.2f}({Pixel Accuracy:.2f} {IoU :.2f} )'.format(i, ave_acc.item() * 100.0, pixAcc * 100.0,mIoU))
+                
+            #Saving Test Image, Ground Truth Image and Predicted Image
+            for j in range(len(data_query)):
+                
