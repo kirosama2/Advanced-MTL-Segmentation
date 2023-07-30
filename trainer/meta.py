@@ -242,3 +242,50 @@ class MetaTrainer(object):
 
                 val_loss_averager.add(loss.item())
                 val_acc_averager.add(pixAcc)
+                val_iou_averager.add(mIoU)
+
+            # Update validation averagers
+            val_loss_averager = val_loss_averager.item()
+            val_acc_averager = val_acc_averager.item()
+            val_iou_averager = val_iou_averager.item()
+            
+            # Write the tensorboardX records
+            writer.add_scalar('data/val_loss (Meta)', float(val_loss_averager), epoch)
+            writer.add_scalar('data/val_acc (Meta)', float(val_acc_averager)*100.0, epoch)  
+            writer.add_scalar('data/val_iou (Meta)', float(val_iou_averager), epoch)
+            
+            # Print loss and accuracy for this epoch
+            print('Epoch {}, Val, Loss={:.4f} Acc={:.4f} IoU={:.4f}'.format(epoch, val_loss_averager, val_acc_averager*100.0,val_iou_averager))
+
+            # Update best saved model
+            if val_iou_averager > trlog['max_iou']:
+                trlog['max_iou'] = val_iou_averager
+                trlog['max_iou_epoch'] = epoch
+                self.save_model('max_iou')
+            # Save model every 10 epochs
+            if epoch % 10 == 0:
+                self.save_model('epoch'+str(epoch))
+
+            # Update the logs
+            trlog['train_loss'].append(train_loss_averager)
+            trlog['train_acc'].append(train_acc_averager)
+            trlog['val_loss'].append(val_loss_averager)
+            trlog['val_acc'].append(val_acc_averager)
+            trlog['train_iou'].append(train_iou_averager)
+            trlog['val_iou'].append(val_iou_averager)
+            
+            # Save log
+            torch.save(trlog, osp.join(self.args.save_path, 'trlog'))
+
+            if epoch % 1 == 0:
+                print('Running Time: {}, Estimated Time: {}'.format(timer.measure(), timer.measure(epoch / self.args.max_epoch)))
+
+        writer.close()
+
+    def eval(self):
+        """The function for the meta-evaluate (test) phase."""
+        # Load the logs
+        trlog = torch.load(osp.join(self.args.save_path, 'trlog'))
+
+        # Load meta-test set
+        self.test_set = mDataset('test', self.args)
