@@ -84,3 +84,60 @@ class PreTrainer(object):
         Args:
           name: the name for saved checkpoint
         """  
+        torch.save(dict(params=self.model.encoder.state_dict()), osp.join(self.args.save_path, name + '.pth'))
+
+    def _reset_metrics(self):
+        #self.batch_time = AverageMeter()
+        #self.data_time = AverageMeter()
+        #self.total_loss = AverageMeter()
+        self.total_inter, self.total_union = 0, 0
+        self.total_correct, self.total_label = 0, 0
+
+    def _update_seg_metrics(self, correct, labeled, inter, union):
+        self.total_correct += correct
+        self.total_label += labeled
+        self.total_inter += inter
+        self.total_union += union
+
+    def _get_seg_metrics(self,n_class):
+        self.n_class=n_class
+        pixAcc = 1.0 * self.total_correct / (np.spacing(1) + self.total_label)
+        IoU = 1.0 * self.total_inter / (np.spacing(1) + self.total_union)
+        mIoU = IoU.mean()
+        return {
+            "Pixel_Accuracy": np.round(pixAcc, 3),
+            "Mean_IoU": np.round(mIoU, 3),
+            "Class_IoU": dict(zip(range(self.n_class), np.round(IoU, 3)))
+        }
+
+    def train(self):
+        """The function for the pre-train phase."""
+
+        # Set the pretrain log
+        trlog = {}
+        trlog['args'] = vars(self.args)
+        trlog['train_loss'] = []
+        trlog['val_loss'] = []
+        trlog['train_acc'] = []
+        trlog['val_acc'] = []
+        trlog['train_iou']=[]
+        trlog['val_iou']=[]
+        trlog['max_iou'] = 0.0
+        trlog['max_iou_epoch'] = 0
+
+        # Set the timer
+        timer = Timer()
+        # Set global count to zero
+        global_count = 0
+        # Set tensorboardX
+        writer = SummaryWriter(comment=self.args.save_path)
+
+        # Start pretrain
+        for epoch in range(1, self.args.pre_max_epoch + 1):
+            # Update learning rate
+            self.lr_scheduler.step()
+            # Set the model to train mode
+            self.model.train()
+            self.model.mode = 'train'
+            # Set averager classes to record training losses and accuracies
+            train_loss_averager = Averager()
