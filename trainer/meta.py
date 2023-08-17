@@ -331,3 +331,24 @@ class MetaTrainer(object):
             #Saving Test Image, Ground Truth Image and Predicted Image
             for j in range(len(data_query)):
                 
+                x1 = data_query[j].detach().cpu()
+                y1 = label[j].detach().cpu()
+                z1 = logits[j].detach().cpu()
+                
+                x = transforms.ToPILImage()(x1).convert("RGB")
+                y = transforms.ToPILImage()(y1 /(1.0*(self.args.way-1))).convert("LA")
+                im =  torch.tensor(np.argmax(np.array(z1),axis=0)/(1.0*(self.args.way-1))) 
+                im =  im.type(torch.FloatTensor)
+                z =  transforms.ToPILImage()(im).convert("LA")
+                
+                px=self.args.save_image_dir+str(count)+'a.jpg'
+                py=self.args.save_image_dir+str(count)+'b.png'
+                pz=self.args.save_image_dir+str(count)+'c.png'
+                x.save(px)
+                y.save(py)
+                z.save(pz)
+                count=count+1
+            
+        # Calculate the confidence interval, update the logs
+        #print('Val Best Epoch {}, Acc {:.4f}, Test Acc {:.4f}'.format(trlog['max_acc_epoch'], trlog['max_acc']*100.0, ave_acc.item()*100.0))
+        
