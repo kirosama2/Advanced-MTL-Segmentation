@@ -141,3 +141,45 @@ class PreTrainer(object):
             self.model.mode = 'train'
             # Set averager classes to record training losses and accuracies
             train_loss_averager = Averager()
+            train_acc_averager = Averager()
+            train_iou_averager = Averager()
+
+            # Using tqdm to read samples from train loader
+            tqdm_gen = tqdm.tqdm(self.train_loader)
+
+            for i, batch in enumerate(tqdm_gen, 1):
+                # Update global count number 
+                global_count = global_count + 1
+                if torch.cuda.is_available():
+                    data, label = [_.cuda() for _ in batch]
+                else:
+                    data = batch[0]
+                    label = batch[1]
+
+                # Output logits for model
+                logits = self.model(data)
+                # Calculate train loss
+                # CD loss is modified in the whole project to incorporate ony Cross Entropy loss. Modify as per requirement.
+                #loss = self.FL(logits, label) + self.CD(logits,label) + self.LS(logits,label)
+                loss = self.CD(logits,label) 
+                
+                # Calculate train accuracy
+                self._reset_metrics()
+                seg_metrics = eval_metrics(logits, label, self.args.num_classes)
+                self._update_seg_metrics(*seg_metrics)
+                pixAcc, mIoU, _ = self._get_seg_metrics(self.args.num_classes).values()
+
+                # Add loss and accuracy for the averagers
+                train_loss_averager.add(loss.item())
+                train_acc_averager.add(pixAcc)
+                train_iou_averager.add(mIoU)
+
+                # Print loss and accuracy till this step
+                tqdm_gen.set_description('Epoch {}, Loss={:.4f} Acc={:.4f} IOU={:.4f}'.format(epoch, train_loss_averager.item(),train_acc_averager.item()*100.0,train_iou_averager.item()))
+                
+                # Loss backwards and optimizer updates
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+
+            # Update the averagers
