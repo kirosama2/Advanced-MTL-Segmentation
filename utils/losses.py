@@ -14,4 +14,4 @@ def make_one_hot(labels, classes):
 def get_weights(target):
     t_np = target.view(-1).data.cpu().numpy()
 
-    cl
+    classes, counts = np.unique(t_np, return_counts=Tr
