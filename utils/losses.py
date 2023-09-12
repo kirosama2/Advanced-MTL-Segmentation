@@ -9,4 +9,7 @@ def make_one_hot(labels, classes):
     if(torch.cuda.is_available()):
         one_hot=one_hot.cuda()
     target = one_hot.scatter_(1, labels.data, 1)
-    
+    return target
+
+def get_weights(target):
+   
