@@ -19,3 +19,5 @@ def get_weights(target):
     #cls_w = class_weight.compute_class_weight('balanced', classes, t_np)
 
     weights = np.ones(7)
+    weights[classes] = cls_w
+    return torch.from_numpy(
