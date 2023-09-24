@@ -20,4 +20,6 @@ def get_weights(target):
 
     weights = np.ones(7)
     weights[classes] = cls_w
-    return torch.from_numpy(
+    return torch.from_numpy(weights).float().cuda()
+
+class CrossEntropyLoss2d(nn.Modul
