@@ -24,4 +24,5 @@ def get_weights(target):
 
 class CrossEntropyLoss2d(nn.Module):
     def __init__(self, weight=None, ignore_index=255, reduction='mean'):
-        super(CrossEntrop
+        super(CrossEntropyLoss2d, self).__init__()
+        self.CE =  n
