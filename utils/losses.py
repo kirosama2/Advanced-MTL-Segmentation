@@ -27,4 +27,5 @@ class CrossEntropyLoss2d(nn.Module):
         super(CrossEntropyLoss2d, self).__init__()
         self.CE =  nn.CrossEntropyLoss(weight=weight, ignore_index=ignore_index, reduction=reduction)
 
-    def 
+    def forward(self, output, target):
+        lo
