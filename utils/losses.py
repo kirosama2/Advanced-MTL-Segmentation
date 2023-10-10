@@ -31,4 +31,5 @@ class CrossEntropyLoss2d(nn.Module):
         loss = self.CE(output, target)
         return loss
 
-clas
+class DiceLoss(nn.Module):
+    def __init__(self, smoo
