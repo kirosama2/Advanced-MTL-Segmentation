@@ -37,4 +37,5 @@ class DiceLoss(nn.Module):
         self.ignore_index = ignore_index
         self.smooth = smooth
 
-    def fo
+    def forward(self, output, target):
+        if sel
