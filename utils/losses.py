@@ -39,4 +39,5 @@ class DiceLoss(nn.Module):
 
     def forward(self, output, target):
         if self.ignore_index not in range(target.min(), target.max()):
-            if (target == self.ignore_
+            if (target == self.ignore_index).sum() > 0:
+                target[target == self.ignore_in
