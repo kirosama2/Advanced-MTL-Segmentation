@@ -41,4 +41,5 @@ class DiceLoss(nn.Module):
         if self.ignore_index not in range(target.min(), target.max()):
             if (target == self.ignore_index).sum() > 0:
                 target[target == self.ignore_index] = target.min()
-        target = make_one_hot(ta
+        target = make_one_hot(target.unsqueeze(dim=1), classes=output.size()[1])
+        o
