@@ -43,4 +43,5 @@ class DiceLoss(nn.Module):
                 target[target == self.ignore_index] = target.min()
         target = make_one_hot(target.unsqueeze(dim=1), classes=output.size()[1])
         output = F.softmax(output, dim=1)
-        output_f
+        output_flat = output.contiguous().view(-1)
+        target_flat
