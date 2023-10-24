@@ -45,4 +45,5 @@ class DiceLoss(nn.Module):
         output = F.softmax(output, dim=1)
         output_flat = output.contiguous().view(-1)
         target_flat = target.contiguous().view(-1)
-        int
+        intersection = (output_flat * target_flat).sum()
+        los
