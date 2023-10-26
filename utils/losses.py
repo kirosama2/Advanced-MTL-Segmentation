@@ -47,4 +47,4 @@ class DiceLoss(nn.Module):
         target_flat = target.contiguous().view(-1)
         intersection = (output_flat * target_flat).sum()
         loss = 1 - ((2. * intersection + self.smooth) /
-  
+                    (output_flat.sum() + target_flat.sum()
