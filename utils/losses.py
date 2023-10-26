@@ -50,4 +50,5 @@ class DiceLoss(nn.Module):
                     (output_flat.sum() + target_flat.sum() + self.smooth))
         return loss
 
-class FocalLoss
+class FocalLoss(nn.Module):
+    def __init__(self, gamma=2, alpha
