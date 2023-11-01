@@ -54,4 +54,5 @@ class FocalLoss(nn.Module):
     def __init__(self, gamma=2, alpha=None, ignore_index=255, size_average=True):
         super(FocalLoss, self).__init__()
         self.gamma = gamma
-        self.size_average = size
+        self.size_average = size_average
+        self.CE_loss = nn.CrossEntropyLoss
