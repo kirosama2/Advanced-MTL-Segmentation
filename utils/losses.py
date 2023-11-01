@@ -51,4 +51,5 @@ class DiceLoss(nn.Module):
         return loss
 
 class FocalLoss(nn.Module):
-    def __init__(self, gamma=2, alpha
+    def __init__(self, gamma=2, alpha=None, ignore_index=255, size_average=True):
+ 
