@@ -55,4 +55,4 @@ class FocalLoss(nn.Module):
         super(FocalLoss, self).__init__()
         self.gamma = gamma
         self.size_average = size_average
-        self.CE_loss = nn.CrossEntropyLoss
+        self.CE_loss = nn.CrossEntropyLoss(reduce=False, ignore_index=ignore_index, weight=alpha)
