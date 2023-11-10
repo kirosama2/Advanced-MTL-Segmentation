@@ -56,3 +56,6 @@ class FocalLoss(nn.Module):
         self.gamma = gamma
         self.size_average = size_average
         self.CE_loss = nn.CrossEntropyLoss(reduce=False, ignore_index=ignore_index, weight=alpha)
+
+    def forward(self, output, target):
+        logpt = s
