@@ -59,4 +59,6 @@ class FocalLoss(nn.Module):
 
     def forward(self, output, target):
         logpt = self.CE_loss(output, target)
-        pt = torch.exp(-logp
+        pt = torch.exp(-logpt)
+        loss = ((1-pt)**self.gamma) * logpt
+        if s
