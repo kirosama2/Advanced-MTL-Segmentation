@@ -61,4 +61,5 @@ class FocalLoss(nn.Module):
         logpt = self.CE_loss(output, target)
         pt = torch.exp(-logpt)
         loss = ((1-pt)**self.gamma) * logpt
-        if s
+        if self.size_average:
+            return loss.mean(
