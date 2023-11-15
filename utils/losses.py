@@ -66,4 +66,4 @@ class FocalLoss(nn.Module):
         return loss.sum()
 
 class CE_DiceLoss(nn.Module):
- 
+    def __init__(self, smooth=1, reduction='mean', ignore_index=
