@@ -67,4 +67,6 @@ class FocalLoss(nn.Module):
 
 class CE_DiceLoss(nn.Module):
     def __init__(self, smooth=1, reduction='mean', ignore_index=255, weight=None):
-        super(CE_DiceLoss
+        super(CE_DiceLoss, self).__init__()
+        self.smooth = smooth
+    
