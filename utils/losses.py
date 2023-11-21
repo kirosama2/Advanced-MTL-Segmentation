@@ -70,4 +70,6 @@ class CE_DiceLoss(nn.Module):
         super(CE_DiceLoss, self).__init__()
         self.smooth = smooth
         self.dice = DiceLoss()
-        self.cross_entropy = nn.CrossEntropyLoss(weight=weight, reducti
+        self.cross_entropy = nn.CrossEntropyLoss(weight=weight, reduction=reduction, ignore_index=ignore_index)
+    
+    def forward(
