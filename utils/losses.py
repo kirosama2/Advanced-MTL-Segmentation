@@ -74,4 +74,5 @@ class CE_DiceLoss(nn.Module):
     
     def forward(self, output, target):
         CE_loss = self.cross_entropy(output, target)
-   
+        dice_loss=0.0
+        #dice_loss = self.di
