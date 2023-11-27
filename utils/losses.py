@@ -73,4 +73,5 @@ class CE_DiceLoss(nn.Module):
         self.cross_entropy = nn.CrossEntropyLoss(weight=weight, reduction=reduction, ignore_index=ignore_index)
     
     def forward(self, output, target):
-        CE_loss 
+        CE_loss = self.cross_entropy(output, target)
+   
