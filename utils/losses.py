@@ -79,4 +79,5 @@ class CE_DiceLoss(nn.Module):
         return CE_loss + dice_loss
 
 class LovaszSoftmax(nn.Module):
-    def __init__(self, classes='present', per_image=Fal
+    def __init__(self, classes='present', per_image=False, ignore_index=255):
+        super(Lo
