@@ -81,4 +81,5 @@ class CE_DiceLoss(nn.Module):
 class LovaszSoftmax(nn.Module):
     def __init__(self, classes='present', per_image=False, ignore_index=255):
         super(LovaszSoftmax, self).__init__()
-        self.smoo
+        self.smooth = classes
+        self.per_image =
