@@ -82,4 +82,7 @@ class LovaszSoftmax(nn.Module):
     def __init__(self, classes='present', per_image=False, ignore_index=255):
         super(LovaszSoftmax, self).__init__()
         self.smooth = classes
-        self.per_image =
+        self.per_image = per_image
+        self.ignore_index = ignore_index
+    
+    def 
