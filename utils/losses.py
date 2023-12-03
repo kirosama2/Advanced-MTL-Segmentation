@@ -85,4 +85,5 @@ class LovaszSoftmax(nn.Module):
         self.per_image = per_image
         self.ignore_index = ignore_index
     
-    def 
+    def forward(self, output, target):
+        logit
