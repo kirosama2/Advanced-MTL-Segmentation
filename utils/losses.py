@@ -86,4 +86,5 @@ class LovaszSoftmax(nn.Module):
         self.ignore_index = ignore_index
     
     def forward(self, output, target):
-        logit
+        logits = F.softmax(output, dim=1)
+        loss = lovasz_so
