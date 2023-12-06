@@ -168,3 +168,47 @@ def lovasz_softmax_flat(probas, labels, classes='present'):
     """
     Multi-class Lovasz-Softmax loss
       probas: [P, C] Variable, class probabilities at each prediction (between 0 and 1)
+      labels: [P] Tensor, ground truth labels (between 0 and C - 1)
+      classes: 'all' for all, 'present' for classes present in labels, or a list of classes to average.
+    """
+    if probas.numel() == 0:
+        # only void pixels, the gradients should be 0
+        return probas * 0.
+    C = probas.size(1)
+    losses = []
+    class_to_sum = list(range(C)) if classes in ['all', 'present'] else classes
+    for c in class_to_sum:
+        fg = (labels == c).float() # foreground for class c
+        if (classes is 'present' and fg.sum() == 0):
+            continue
+        if C == 1:
+            if len(classes) > 1:
+                raise ValueError('Sigmoid output possible only with 1 class')
+            class_pred = probas[:, 0]
+        else:
+            class_pred = probas[:, c]
+        errors = (Variable(fg) - class_pred).abs()
+        errors_sorted, perm = torch.sort(errors, 0, descending=True)
+        perm = perm.data
+        fg_sorted = fg[perm]
+        losses.append(torch.dot(errors_sorted, Variable(lovasz_grad(fg_sorted))))
+    return mean(losses)
+
+
+def flatten_probas(probas, labels, ignore=None):
+    """
+    Flattens predictions in the batch
+    """
+    if probas.dim() == 3:
+        # assumes output of a sigmoid layer
+        B, H, W = probas.size()
+        probas = probas.view(B, 1, H, W)
+    B, C, H, W = probas.size()
+    probas = probas.permute(0, 2, 3, 1).contiguous().view(-1, C)  # B * H * W, C = P, C
+    labels = labels.view(-1)
+    if ignore is None:
+        return probas, labels
+    valid = (labels != ignore)
+    vprobas = probas[valid.nonzero().squeeze()]
+    vlabels = labels[valid]
+    return vprobas, vlabels
