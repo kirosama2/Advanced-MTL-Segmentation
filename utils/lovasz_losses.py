@@ -113,3 +113,58 @@ def flatten_binary_scores(scores, labels, ignore=None):
     Remove labels equal to 'ignore'
     """
     scores = scores.view(-1)
+    labels = labels.view(-1)
+    if ignore is None:
+        return scores, labels
+    valid = (labels != ignore)
+    vscores = scores[valid]
+    vlabels = labels[valid]
+    return vscores, vlabels
+
+
+class StableBCELoss(torch.nn.modules.Module):
+    def __init__(self):
+         super(StableBCELoss, self).__init__()
+    def forward(self, input, target):
+         neg_abs = - input.abs()
+         loss = input.clamp(min=0) - input * target + (1 + neg_abs.exp()).log()
+         return loss.mean()
+
+
+def binary_xloss(logits, labels, ignore=None):
+    """
+    Binary Cross entropy loss
+      logits: [B, H, W] Variable, logits at each pixel (between -\infty and +\infty)
+      labels: [B, H, W] Tensor, binary ground truth masks (0 or 1)
+      ignore: void class id
+    """
+    logits, labels = flatten_binary_scores(logits, labels, ignore)
+    loss = StableBCELoss()(logits, Variable(labels.float()))
+    return loss
+
+
+# --------------------------- MULTICLASS LOSSES ---------------------------
+
+
+def lovasz_softmax(probas, labels, classes='present', per_image=False, ignore=None):
+    """
+    Multi-class Lovasz-Softmax loss
+      probas: [B, C, H, W] Variable, class probabilities at each prediction (between 0 and 1).
+              Interpreted as binary (sigmoid) output with outputs of size [B, H, W].
+      labels: [B, H, W] Tensor, ground truth labels (between 0 and C - 1)
+      classes: 'all' for all, 'present' for classes present in labels, or a list of classes to average.
+      per_image: compute the loss per image instead of per batch
+      ignore: void class labels
+    """
+    if per_image:
+        loss = mean(lovasz_softmax_flat(*flatten_probas(prob.unsqueeze(0), lab.unsqueeze(0), ignore), classes=classes)
+                          for prob, lab in zip(probas, labels))
+    else:
+        loss = lovasz_softmax_flat(*flatten_probas(probas, labels, ignore), classes=classes)
+    return loss
+
+
+def lovasz_softmax_flat(probas, labels, classes='present'):
+    """
+    Multi-class Lovasz-Softmax loss
+      probas: [P, C] Variable, class probabilities at each prediction (between 0 and 1)
