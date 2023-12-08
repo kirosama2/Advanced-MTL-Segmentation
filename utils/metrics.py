@@ -2,4 +2,5 @@
 import numpy as np
 import torch
 
-class AverageMeter(o
+class AverageMeter(object):
+    """Computes and stores the average and current va
