@@ -9,4 +9,6 @@ class AverageMeter(object):
         self.val = None
         self.avg = None
         self.sum = None
-      
+        self.count = None
+
+    def initialize(self,
