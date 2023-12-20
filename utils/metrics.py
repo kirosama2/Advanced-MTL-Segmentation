@@ -15,4 +15,5 @@ class AverageMeter(object):
         self.val = val
         self.avg = val
         self.sum = np.multiply(val, weight)
-        self.co
+        self.count = weight
+        self.initialize
