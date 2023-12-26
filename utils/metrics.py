@@ -18,4 +18,5 @@ class AverageMeter(object):
         self.count = weight
         self.initialized = True
 
-    def update(self, val,
+    def update(self, val, weight=1):
+        if not self.initialized
