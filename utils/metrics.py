@@ -22,4 +22,7 @@ class AverageMeter(object):
         if not self.initialized:
             self.initialize(val, weight)
         else:
-            self.add(val
+            self.add(val, weight)
+
+    def add(self, val, weight):
+      
