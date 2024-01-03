@@ -28,4 +28,8 @@ class AverageMeter(object):
         self.val = val
         self.sum = np.add(self.sum, np.multiply(val, weight))
         self.count = self.count + weight
-        self.avg 
+        self.avg = self.sum / self.count
+
+    @property
+    def value(self):
+   
