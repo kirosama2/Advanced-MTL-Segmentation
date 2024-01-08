@@ -36,4 +36,6 @@ class AverageMeter(object):
 
     @property
     def average(self):
-        return np.round(self
+        return np.round(self.avg, 5)
+
+def batch_pix_accuracy(output,
