@@ -35,4 +35,5 @@ class AverageMeter(object):
         return self.val
 
     @property
-    def a
+    def average(self):
+        return np.round(self
