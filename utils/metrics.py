@@ -32,4 +32,7 @@ class AverageMeter(object):
 
     @property
     def value(self):
-   
+        return self.val
+
+    @property
+    def a
