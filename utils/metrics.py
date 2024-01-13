@@ -38,4 +38,6 @@ class AverageMeter(object):
     def average(self):
         return np.round(self.avg, 5)
 
-def batch_pix_accuracy(output,
+def batch_pix_accuracy(output, target):
+    _, predict = torch.max(output, 1)
+
