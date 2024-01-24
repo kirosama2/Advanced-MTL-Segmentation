@@ -41,3 +41,5 @@ class AverageMeter(object):
 def batch_pix_accuracy(output, target):
     _, predict = torch.max(output, 1)
 
+    predict = predict.int() + 1
+    target = target.
