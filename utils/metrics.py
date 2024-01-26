@@ -45,4 +45,5 @@ def batch_pix_accuracy(output, target):
     target = target.int() + 1
 
     pixel_labeled = (target > 0).sum()
-    pixel_correct = ((predict == target)*(target > 0))
+    pixel_correct = ((predict == target)*(target > 0)).sum()
+    assert pixel_correct <= pixel_labeled, "
