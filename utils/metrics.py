@@ -47,4 +47,4 @@ def batch_pix_accuracy(output, target):
     pixel_labeled = (target > 0).sum()
     pixel_correct = ((predict == target)*(target > 0)).sum()
     assert pixel_correct <= pixel_labeled, "Correct area should be smaller than Labeled"
-    ret
+    return pixel_correct.cpu().numpy(), pixel_labeled.cpu
