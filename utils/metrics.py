@@ -50,4 +50,6 @@ def batch_pix_accuracy(output, target):
     return pixel_correct.cpu().numpy(), pixel_labeled.cpu().numpy()
 
 def batch_intersection_union(output, target, num_class):
-    _, predict = torch.ma
+    _, predict = torch.max(output, 1)
+    predict = predict + 1
+    targe
