@@ -49,4 +49,5 @@ def batch_pix_accuracy(output, target):
     assert pixel_correct <= pixel_labeled, "Correct area should be smaller than Labeled"
     return pixel_correct.cpu().numpy(), pixel_labeled.cpu().numpy()
 
-def batch_intersection_union(
+def batch_intersection_union(output, target, num_class):
+    _, predict = torch.ma
