@@ -52,4 +52,6 @@ def batch_pix_accuracy(output, target):
 def batch_intersection_union(output, target, num_class):
     _, predict = torch.max(output, 1)
     predict = predict + 1
-    targe
+    target = target + 1
+
+    predict = predict * (target > 0).long
