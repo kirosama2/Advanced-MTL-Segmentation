@@ -54,4 +54,7 @@ def batch_intersection_union(output, target, num_class):
     predict = predict + 1
     target = target + 1
 
-    predict = predict * (target > 0).long
+    predict = predict * (target > 0).long()
+    intersection = predict * (predict == target).long()
+
+    area_in
