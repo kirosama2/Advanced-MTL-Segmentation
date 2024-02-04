@@ -57,4 +57,5 @@ def batch_intersection_union(output, target, num_class):
     predict = predict * (target > 0).long()
     intersection = predict * (predict == target).long()
 
-    area_inter = torch.histc(intersection.float(), bins=n
+    area_inter = torch.histc(intersection.float(), bins=num_class, max=num_class, min=1)
+    area_pred = torch.hist
