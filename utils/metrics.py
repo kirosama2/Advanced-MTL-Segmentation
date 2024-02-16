@@ -61,4 +61,5 @@ def batch_intersection_union(output, target, num_class):
     area_pred = torch.histc(predict.float(), bins=num_class, max=num_class, min=1)
     area_lab = torch.histc(target.float(), bins=num_class, max=num_class, min=1)
     area_union = area_pred + area_lab - area_inter
-    assert (area_inter <= area_union).all(), "Intersection area should
+    assert (area_inter <= area_union).all(), "Intersection area should be smaller than Union area"
+    return
