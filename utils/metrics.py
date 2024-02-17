@@ -65,4 +65,5 @@ def batch_intersection_union(output, target, num_class):
     return area_inter.cpu().numpy(), area_union.cpu().numpy()
 
 def eval_metrics(output, target, num_classes):
-    correct, labeled = batch_pix_accuracy(output.data, ta
+    correct, labeled = batch_pix_accuracy(output.data, target)
+    inter, union = batch_intersection_union(outp
