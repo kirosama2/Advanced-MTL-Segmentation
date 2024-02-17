@@ -64,4 +64,4 @@ def batch_intersection_union(output, target, num_class):
     assert (area_inter <= area_union).all(), "Intersection area should be smaller than Union area"
     return area_inter.cpu().numpy(), area_union.cpu().numpy()
 
-def
+def eval_metrics(output, target, num_classes)
