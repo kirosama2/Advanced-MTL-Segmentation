@@ -67,4 +67,4 @@ def batch_intersection_union(output, target, num_class):
 def eval_metrics(output, target, num_classes):
     correct, labeled = batch_pix_accuracy(output.data, target)
     inter, union = batch_intersection_union(output.data, target, num_classes)
-    return [np.round(correct, 5), np.round(
+    return [np.round(correct, 5), np.round(labeled, 5), np.round(inter, 5), np.round(union, 
