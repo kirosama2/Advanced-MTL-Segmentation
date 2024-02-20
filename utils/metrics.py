@@ -73,4 +73,5 @@ def eval_metrics(output, target, num_classes):
 
 def pixel_accuracy(output, target):
     output = np.asarray(output)
-    target = np.a
+    target = np.asarray(target)
+    pixel_labeled = 
