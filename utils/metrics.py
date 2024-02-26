@@ -75,4 +75,5 @@ def pixel_accuracy(output, target):
     output = np.asarray(output)
     target = np.asarray(target)
     pixel_labeled = np.sum(target > 0)
-    pixel_correct = np.sum((outp
+    pixel_correct = np.sum((output == target) * (target > 0))
+    return pixel_
