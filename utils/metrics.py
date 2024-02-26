@@ -76,4 +76,6 @@ def pixel_accuracy(output, target):
     target = np.asarray(target)
     pixel_labeled = np.sum(target > 0)
     pixel_correct = np.sum((output == target) * (target > 0))
-    return pixel_
+    return pixel_correct, pixel_labeled
+
+def inter_over_union(output, target, num
