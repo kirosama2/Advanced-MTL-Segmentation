@@ -80,4 +80,5 @@ def pixel_accuracy(output, target):
 
 def inter_over_union(output, target, num_class):
     output = np.asarray(output) + 1
-  
+    target = np.asarray(target) + 1
+    output = output 
