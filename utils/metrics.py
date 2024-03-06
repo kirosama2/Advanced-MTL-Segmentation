@@ -84,4 +84,5 @@ def inter_over_union(output, target, num_class):
     output = output * (target > 0)
 
     intersection = output * (output == target)
-    area_inter, _ = np.histogram(intersectio
+    area_inter, _ = np.histogram(intersection, bins=num_class, range=(1, num_class))
+    a
