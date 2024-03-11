@@ -87,4 +87,5 @@ def inter_over_union(output, target, num_class):
     area_inter, _ = np.histogram(intersection, bins=num_class, range=(1, num_class))
     area_pred, _ = np.histogram(output, bins=num_class, range=(1, num_class))
     area_lab, _ = np.histogram(target, bins=num_class, range=(1, num_class))
-    area_union 
+    area_union = area_pred + area_lab - area_inter
+    return area_inter
