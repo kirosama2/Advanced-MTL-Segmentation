@@ -8,4 +8,6 @@ import numpy as np
 import torch.nn.functional as F
 
 def ensure_path(path):
-    """The fu
+    """The function to make log path.
+    Args:
+      path: the ge
