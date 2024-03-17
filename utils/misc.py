@@ -17,4 +17,5 @@ def ensure_path(path):
     else:
         os.mkdir(path)
 
-class 
+class Averager():
+    """The class to calcula
