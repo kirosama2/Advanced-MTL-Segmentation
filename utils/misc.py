@@ -18,4 +18,5 @@ def ensure_path(path):
         os.mkdir(path)
 
 class Averager():
-    """The class to calcula
+    """The class to calculate the average."""
+    def __init__(se
