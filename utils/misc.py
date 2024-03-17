@@ -12,4 +12,9 @@ def ensure_path(path):
     Args:
       path: the generated saving path.
     """
-    if os.path.exists(path)
+    if os.path.exists(path):
+        pass
+    else:
+        os.mkdir(path)
+
+class 
