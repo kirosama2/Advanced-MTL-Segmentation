@@ -19,4 +19,8 @@ def ensure_path(path):
 
 class Averager():
     """The class to calculate the average."""
-    def __init__(se
+    def __init__(self):
+        self.n = 0
+        self.v = 0
+
+    def a
