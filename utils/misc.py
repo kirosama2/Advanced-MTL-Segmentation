@@ -23,4 +23,5 @@ class Averager():
         self.n = 0
         self.v = 0
 
-    def a
+    def add(self, x):
+        self.v = (self.v * self.n + x) / 
