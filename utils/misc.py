@@ -27,4 +27,7 @@ class Averager():
         self.v = (self.v * self.n + x) / (self.n + 1)
         self.n += 1
 
-    def item(s
+    def item(self):
+        return self.v
+
+def count_acc(logit
