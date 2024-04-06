@@ -36,4 +36,6 @@ def count_acc(logits, label):
       logits: input logits.
       label: ground truth labels.
     Return:
-      The
+      The output accuracy.
+    """
+    pred = F.softmax(logits, 
