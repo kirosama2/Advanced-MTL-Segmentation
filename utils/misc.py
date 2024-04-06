@@ -31,4 +31,6 @@ class Averager():
         return self.v
 
 def count_acc(logits, label):
-    """The function to calcula
+    """The function to calculate the .
+    Args:
+      logits: input logits.
