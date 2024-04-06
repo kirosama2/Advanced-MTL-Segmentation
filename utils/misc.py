@@ -34,3 +34,6 @@ def count_acc(logits, label):
     """The function to calculate the .
     Args:
       logits: input logits.
+      label: ground truth labels.
+    Return:
+      The
