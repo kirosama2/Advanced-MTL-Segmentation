@@ -30,4 +30,5 @@ class Averager():
     def item(self):
         return self.v
 
-def count_acc(logit
+def count_acc(logits, label):
+    """The function to calcula
