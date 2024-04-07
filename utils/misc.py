@@ -40,3 +40,4 @@ def count_acc(logits, label):
     """
     pred = F.softmax(logits, dim=1).argmax(dim=1)
     if torch.cuda.is_available():
+        return (pred == label).type(torch.cuda.Fl
