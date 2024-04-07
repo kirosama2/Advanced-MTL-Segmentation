@@ -38,4 +38,5 @@ def count_acc(logits, label):
     Return:
       The output accuracy.
     """
-    pred = F.softmax(logits, 
+    pred = F.softmax(logits, dim=1).argmax(dim=1)
+    if torch.cuda.is_available():
