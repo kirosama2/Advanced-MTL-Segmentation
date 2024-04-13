@@ -48,4 +48,5 @@ class Timer():
     def __init__(self):
         self.o = time.time()
 
-    def
+    def measure(self, p=1):
+        x = (time.time() 
