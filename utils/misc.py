@@ -45,4 +45,7 @@ def count_acc(logits, label):
 
 class Timer():
     """The class for timer."""
-    def 
+    def __init__(self):
+        self.o = time.time()
+
+    def
