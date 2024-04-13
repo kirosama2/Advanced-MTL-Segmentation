@@ -49,4 +49,6 @@ class Timer():
         self.o = time.time()
 
     def measure(self, p=1):
-        x = (time.time() 
+        x = (time.time() - self.o) / p
+        x = int(x)
+        if x >= 3600
