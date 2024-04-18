@@ -53,4 +53,5 @@ class Timer():
         x = int(x)
         if x >= 3600:
             return '{:.1f}h'.format(x / 3600)
-  
+        if x >= 60:
+            return '{}m'.format(round
