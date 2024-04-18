@@ -54,4 +54,7 @@ class Timer():
         if x >= 3600:
             return '{:.1f}h'.format(x / 3600)
         if x >= 60:
-            return '{}m'.format(round
+            return '{}m'.format(round(x / 60))
+        return '{}s'.format(x)
+
+_utils_pp = pp
