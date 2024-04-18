@@ -57,4 +57,7 @@ class Timer():
             return '{}m'.format(round(x / 60))
         return '{}s'.format(x)
 
-_utils_pp = pp
+_utils_pp = pprint.PrettyPrinter()
+
+def pprint(x):
+    _uti
