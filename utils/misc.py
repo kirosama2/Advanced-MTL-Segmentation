@@ -60,4 +60,6 @@ class Timer():
 _utils_pp = pprint.PrettyPrinter()
 
 def pprint(x):
-    _uti
+    _utils_pp.pprint(x)
+
+def compute_confidence_interval(data):
