@@ -66,4 +66,7 @@ def compute_confidence_interval(data):
     """The function to calculate the .
     Args:
       data: input records
-      label: ground truth
+      label: ground truth labels.
+    Return:
+      m: mean value
+ 
