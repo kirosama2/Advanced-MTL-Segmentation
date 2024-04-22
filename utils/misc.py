@@ -63,3 +63,5 @@ def pprint(x):
     _utils_pp.pprint(x)
 
 def compute_confidence_interval(data):
+    """The function to calculate the .
+   
