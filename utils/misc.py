@@ -64,4 +64,6 @@ def pprint(x):
 
 def compute_confidence_interval(data):
     """The function to calculate the .
-   
+    Args:
+      data: input records
+      label: ground truth
