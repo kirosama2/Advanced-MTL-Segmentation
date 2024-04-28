@@ -69,4 +69,6 @@ def compute_confidence_interval(data):
       label: ground truth labels.
     Return:
       m: mean value
- 
+      pm: confidence interval.
+    """
+    a 
