@@ -71,4 +71,6 @@ def compute_confidence_interval(data):
       m: mean value
       pm: confidence interval.
     """
-    a 
+    a = 1.0 * np.array(data)
+    m = np.mean(a)
+  
