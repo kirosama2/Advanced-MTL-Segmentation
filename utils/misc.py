@@ -73,4 +73,5 @@ def compute_confidence_interval(data):
     """
     a = 1.0 * np.array(data)
     m = np.mean(a)
-  
+    std = np.std(a)
+    pm = 1.96 * (std / np.sqrt
